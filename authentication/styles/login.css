@@ -1,0 +1,66 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #6e72fc;
+background-image: linear-gradient(315deg, #6e72fc 0%, #ad1deb 74%); 
+}
+
+.container-1{
+      text-align: center;
+      max-width: 1200px;
+      padding: 10px;
+      padding-right: 30px;
+      border-radius: 10px; 
+}
+
+.card{
+    margin: 25px;
+}
+
+.card-title{
+    margin-bottom: 20px;
+}
+
+.input-form{
+    padding-bottom: 20px;
+}
+
+.mb-3{
+    border: 1px solid gray ;
+    border-radius: 1.5em;
+    padding-right:20px;
+}
+
+.form-control-lg-1{
+    border:none ;
+    border-left: 1px solid gray;
+}
+
+
+
+.input-form{
+    max-width: 330px;
+    margin: auto;
+}
+
+
+.form-label{
+    position: relative;
+    left :20px ;     
+}
+
+.custom-textarea{
+    height: 40px;
+    width: 250px;
+    margin-left: 30px;
+}
+
+.no-hover {
+    border-color: initial !important;
+    box-shadow: none !important;
+}
+
