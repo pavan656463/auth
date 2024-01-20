@@ -1,3 +1,31 @@
+<?php
+
+require_once 'config.php' ; 
+require_once 'userControl.php' ; 
+
+function auth($conn){
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
+        // Retrieve form data
+        $user = new Model($conn);
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        if ($user->authenticateUser($username , $password)){
+            header("Location: /auth/task/veiwControl.php");
+            exit();
+        }else{
+            echo "Wrong Username or password" ; 
+        }
+
+    }
+
+}
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +41,7 @@
         <div class="container-1 card">
             <h5 class="card-title">Welcome</h5>
             <div class="input-form">
-                <form method="post" action="/demo/login.php">
+                <form method="post" action="/auth/authentication/login.php">
                     <div class="mb-3">
                         <label for="username" class="form-label">👤</label>
                         <input
@@ -42,11 +70,12 @@
                     >
                         Login
                     </button>
+                    <br><?php  auth($conn) ?>
                 </form>
                                
             </div>
             <div class="container">
-                <p class = "content-p">Don't have account <a href = "/demo/register.php"> click here</a></p>
+                <p class = "content-p">Don't have account <a href = "/auth/authentication/register.php"> click here</a></p>
             </div>
         </div>
     </div>

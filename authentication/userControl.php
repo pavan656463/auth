@@ -38,6 +38,29 @@ class Model {
             return false;
         }
     }
+
+    public function authenticateUser($username, $password)
+    {
+    try {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(empty($user)){
+            return False ; 
+        }
+        if ($password == $user['password']){
+            return True ; 
+        }else{
+            return False ; 
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
 }
 
 ?>

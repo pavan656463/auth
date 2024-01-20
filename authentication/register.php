@@ -103,7 +103,7 @@ function register($conn)
                 </form>
             </div>
             <div class="container mb-4 con-2">
-                <p>Already have an account? <a href="/demo/login.html">Click here</a></p>
+                <p>Already have an account? <a href="/auth/authentication/login.php">Click here</a></p>
             </div>
         </div>
     </div>
