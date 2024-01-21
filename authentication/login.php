@@ -1,9 +1,11 @@
 <?php
 
-require_once 'config.php' ; 
-require_once 'userControl.php' ; 
+require '../configuration/config.php' ; 
+require_once '../configuration/userControl.php' ; 
 
 function auth($conn){
+    session_start() ; 
+
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
         // Retrieve form data
         $user = new Model($conn);
@@ -11,7 +13,11 @@ function auth($conn){
         $password = $_POST["password"];
 
         if ($user->authenticateUser($username , $password)){
-            header("Location: /auth/task/veiwControl.php");
+            // sending data url 
+            $_SESSION['username'] = $username ; 
+            $url = "/auth/base/base.php";
+            
+            header("Location: ".$url);
             exit();
         }else{
             echo "Wrong Username or password" ; 
@@ -20,9 +26,6 @@ function auth($conn){
     }
 
 }
-
-
-
 
 ?>
 
