@@ -70,8 +70,12 @@ class Model {
             foreach ($data as $key => $value) {
                 $stmt->bindValue(":$key", $value);
             }
-    
-            return $stmt->execute();
+            if ($stmt->execute()){
+                return True ; 
+            }else{
+                return False ; 
+            }
+            
     
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
