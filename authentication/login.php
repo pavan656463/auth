@@ -15,7 +15,7 @@ function auth($conn){
         if ($user->authenticateUser($username , $password)){
             // sending data url 
             $_SESSION['username'] = $username ; 
-            $url = "/auth/task/veiwControl.php";
+            $url = "/auth/base/base.php";
             
             header("Location: ".$url);
             exit();
