@@ -82,8 +82,51 @@ class Model {
             return false;
         }
     }
-      }
+    }
+
+    function selectFromTable($conn, $tableName, $parameters = array()){
+    try {
+        $sql = "SELECT * FROM $tableName";
+
+        if (!empty($parameters)) {
+            $sql .= " WHERE ";
+            $conditions = array();
+
+            foreach ($parameters as $key => $value) {
+                // Ensure the key is a valid column name to prevent SQL injection
+                $key = preg_replace('/[^a-zA-Z0-9_]/', '', $key);
+
+                // Use placeholders in the WHERE clause
+                $conditions[] = "$key = :$key";
+            }
+
+            $sql .= implode(' AND ', $conditions);
+        }
+
+        $stmt = $conn->prepare($sql);
+
+        // Bind parameters if any
+        foreach ($parameters as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+
+        $stmt->execute();
+
+        // Fetch the results as an associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    } catch (PDOException $e) {
+        // Handle exceptions as needed
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
+
+    
       
 
 
 ?>
+
