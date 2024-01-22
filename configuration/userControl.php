@@ -39,28 +39,47 @@ class Model {
         }
     }
 
-    public function authenticateUser($username, $password)
-    {
-    try {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
-        $stmt->bindParam(':username', $username);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(empty($user)){
-            return False ; 
+    public function authenticateUser($username, $password){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+    
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(empty($user)){
+                return False ; 
+            }
+            if ($password == $user['password']){
+                return True ; 
+            }else{
+                return False ; 
+            }
+        }catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
-        if ($password == $user['password']){
-            return True ; 
-        }else{
-            return False ; 
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-        return false;
     }
-}
+    
+    public function insertData($table, $data){
+        $columns = implode(", ", array_keys($data));
+        $values = ":" . implode(", :", array_keys($data));
+    
+        try {
+            $stmt = $this->db->prepare("INSERT INTO $table ($columns) VALUES ($values)");
+    
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+    
+            return $stmt->execute();
+    
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+      }
+      
 
-}
 
 ?>
