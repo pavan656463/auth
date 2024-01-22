@@ -62,24 +62,33 @@ function getTaskList($conn)
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
         echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '">';
+        
         echo '<div class="d-flex justify-content-between align-items-center">';
+        
+        // Title on the left side
         echo '<h5 class="task-title">' . $task['title'] . '</h5>';
-        echo '<div class="task-buttons">';
-        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-right:15px;" data-task-id="' . $task['id'] . '">View</button>';
-        echo '<form method="post" action="base.php">';
-        echo '<input type="hidden" name="edit-task-id" value="' . $task['id'] . '">'; 
-        echo '<button class="btn btn-primary btn-sm edit-task" style="margin-right:15px;" data-task-id="' . $task['id'] . '">Edit</button>';
-        echo '</form>' ; 
-        echo '<form method="post" action="base.php">';
-        echo '<input type="hidden" name="delete-task-id" value="' . $task['id'] . '">';
-        echo '<button type="submit" class="btn btn-danger btn-sm delete-task" style="margin-right:15px;">Delete</button>';
+        
+        // Buttons on the right side
+        echo '<div class="d-flex">';
+        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';
+        echo '<form method="post" action="base.php" style="margin-left:10px;">';
+        echo '<input type="hidden" name="edit-task-id" value="' . $task['id'] . '">';
+        echo '<button class="btn btn-primary btn-sm edit-task" style="margin-left:10px;" data-task-id="' . $task['id'] . '">Edit</button>';
         echo '</form>';
-        echo '</div>';
-        echo '</div>';
+        echo '<form method="post" action="base.php" style="margin-left:10px;">';
+        echo '<input type="hidden" name="delete-task-id" value="' . $task['id'] . '">';
+        echo '<button type="submit" class="btn btn-danger btn-sm delete-task" style="margin-left:10px;">Delete</button>';
+        echo '</form>';
+        echo '</div>'; // Close the d-flex div for buttons
+        
+        echo '</div>'; // Close the d-flex div for title and buttons
         echo '</li>';
     }
     echo '</ul>';
 }
+
+
+
 
 ?>
 <!DOCTYPE html>

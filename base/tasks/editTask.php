@@ -33,48 +33,55 @@ if ($task) {
 
 <body>
     <div class="container mt-5">
-        <form method="post" action="">
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" name="title"
-                    value="<?php echo isset($title) ? htmlspecialchars($title) : ''; ?>" required>
+        <div class="card">
+            <div class="card-header">
+                <h1>Edit task</h1>
             </div>
+            <div class="card-body">
+                <form method="post" action="">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                            value="<?php echo isset($title) ? htmlspecialchars($title) : ''; ?>" required>
+                    </div>
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description"
-                    required><?php echo isset($description) ? htmlspecialchars($description) : ''; ?></textarea>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" id="description" name="description"
+                            required><?php echo isset($description) ? htmlspecialchars($description) : ''; ?></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assignee">Assignee:</label>
+                        <input type="text" class="form-control" id="assignee" name="assignee"
+                            value="<?php echo isset($assignee) ? htmlspecialchars($assignee) : ''; ?>" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" name="submit" style="background-color:#20c997; border:none;">
+                        Update
+                    </button>
+                </form>
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                    $title = $_POST["title"];
+                    $description = $_POST["description"];
+                    $assignee = $_POST["assignee"];
+
+                    // Corrected the array key from 'assingnee' to 'assignee'
+                    $dataUpdate = array('title' => $title, 'description' => $description, 'assignee' => $assignee);
+                    $conditions = array('id' => $taskId);
+                    // Assuming you have a function updateRecord defined
+                    updateRecord($conn, 'tasks', $dataUpdate, $conditions);
+
+                    $url = "/auth/base/base.php";
+                    header("Location: " . $url);
+                    exit();
+                } else {
+                    echo "Not Updated";
+                }
+                ?>
             </div>
-
-            <div class="form-group">
-                <label for="assignee">Assignee:</label>
-                <input type="text" class="form-control" id="assignee" name="assignee"
-                    value="<?php echo isset($assignee) ? htmlspecialchars($assignee) : ''; ?>" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary" name="submit">
-                Update
-            </button>
-        </form>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-            $title = $_POST["title"];
-            $description = $_POST["description"];
-            $assignee = $_POST["assignee"];
-
-            // Corrected the array key from 'assingnee' to 'assignee'
-            $dataUpdate = array('title' => $title, 'description' => $description, 'assignee' => $assignee);
-            $conditions = array('id' => $taskId);
-            // Assuming you have a function updateRecord defined
-            updateRecord($conn, 'tasks', $dataUpdate, $conditions);
-
-            $url = "/auth/base/base.php";
-            header("Location: " . $url);
-            exit();
-        } else {
-            echo "Not Updated";
-        }
-        ?>
+        </div>
     </div>
 
     <!-- Include Bootstrap JS and Popper.js -->
