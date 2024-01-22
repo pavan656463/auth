@@ -12,7 +12,10 @@ function addTask($conn ,  $title, $name, $description, $assignee) {
 
     try {
         $user = new Model($conn);
-
+        if ($assignee == "" || $title == ""){
+            echo "Please check all details" ; 
+            return False ; 
+        }
         $data = array(
             'id' => rand($min, $max),
             'title' => $title,
@@ -23,7 +26,7 @@ function addTask($conn ,  $title, $name, $description, $assignee) {
 
         // Call the insertData function with the 'tasks' table and the data
         if ($user->insertData('tasks', $data)) {
-            echo "Task added successfully";
+            echo "Task added successfully 👍";
         } else {
             echo "Failed to add task";
         }

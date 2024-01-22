@@ -1,5 +1,5 @@
 <div>
-    <form action="/auth/base/base.php" method="post">
+    <form action="/auth/base/base.php" id = "addTaskForm" method="post">
         <div class="mb-3">
             <label for="" class="form-label">Title</label>
             <input type="text" class="form-control" name="title" id="title" aria-describedby="helpId" placeholder="" />
