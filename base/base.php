@@ -2,9 +2,10 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once '../configuration/config.php';
-require '../base/tasks/deleteTask.php'; 
-require_once 'veiwFunction.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/auth/configuration/config.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/auth/base/veiwFunction.php';
+
 
 
 session_start();
@@ -17,6 +18,8 @@ function task($conn)
         $description = $_POST["description"];
         $assignee = $_POST["assignee"];
         addTask($conn, $title, $name, $description, $assignee);
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit();
     }
 }
 
@@ -26,14 +29,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-task-id"])) {
     // Implement logic to delete the task from the database based on $taskId
     // For example, you can use a function like deleteTaskById($conn, $taskId) to delete the task.
     // Make sure to include your database connection and appropriate functions.
-
     deleteTaskById($conn, $taskId);
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
 
     // Return a success message or appropriate response
-    echo "Task deleted successfully!";
 } else {
     // Handle invalid request
-    echo "Invalid request!";
+    echo "";
+}
+
+// edit the task 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit-task-id"])) {
+    $taskId = $_POST["edit-task-id"];
+    $url = '../base/tasks/editTask.php' ; 
+
+    $_SESSION['taskId'] = $taskId ; 
+    header("Location: ".$url);
+    exit();
+
+    // Return a success message or appropriate response
+} else {
+    // Handle invalid request
+    echo "";
 }
 
 function getTaskList($conn)
@@ -47,7 +66,10 @@ function getTaskList($conn)
         echo '<h5 class="task-title">' . $task['title'] . '</h5>';
         echo '<div class="task-buttons">';
         echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-right:15px;" data-task-id="' . $task['id'] . '">View</button>';
+        echo '<form method="post" action="base.php">';
+        echo '<input type="hidden" name="edit-task-id" value="' . $task['id'] . '">'; 
         echo '<button class="btn btn-primary btn-sm edit-task" style="margin-right:15px;" data-task-id="' . $task['id'] . '">Edit</button>';
+        echo '</form>' ; 
         echo '<form method="post" action="base.php">';
         echo '<input type="hidden" name="delete-task-id" value="' . $task['id'] . '">';
         echo '<button type="submit" class="btn btn-danger btn-sm delete-task" style="margin-right:15px;">Delete</button>';
@@ -115,6 +137,27 @@ function getTaskList($conn)
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 
+    </script>
+    <script>
+       $(document).ready(function () {
+            var formSubmitted = false; // Flag to track form submission
+
+            $(".task-box").click(function () {
+                var title = $(this).data("title");
+                var description = $(this).data("description");
+                var dateCreated = $(this).data("date-created");
+                var assignee = $(this).data("assignee");
+
+                Swal.fire({
+                    title: title,
+                    html: '<p>Description: ' + description + '</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p>',
+                    icon: 'info',
+                    showCancelButton: false,
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                });
+            });
+        });
     </script>
 </body>
 
