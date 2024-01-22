@@ -84,52 +84,93 @@ class Model {
     }
     }
 
-    function selectFromTable($conn, $tableName, $parameters = array()){
-    try {
-        $sql = "SELECT * FROM $tableName";
-
-        if (!empty($parameters)) {
-            $sql .= " WHERE ";
-            $conditions = array();
-
-            foreach ($parameters as $key => $value) {
-                // Ensure the key is a valid column name to prevent SQL injection
-                $key = preg_replace('/[^a-zA-Z0-9_]/', '', $key);
-
-                // Use placeholders in the WHERE clause
-                $conditions[] = "$key = :$key";
-            }
-
-            $sql .= implode(' AND ', $conditions);
-        }
-
-        $stmt = $conn->prepare($sql);
-
-        // Bind parameters if any
-        foreach ($parameters as $key => $value) {
-            $stmt->bindValue(":$key", $value);
-        }
-
-        $stmt->execute();
-
-        // Fetch the results as an associative array
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $result;
-    } catch (PDOException $e) {
-        // Handle exceptions as needed
-        echo "Error: " . $e->getMessage();
-        return false;
-    }
-}
-
-
-<<<<<<< HEAD
-   
-=======
+    function selectFromTable($conn, $tableName, $parameters = array()) {
+        try {
+            $sql = "SELECT * FROM $tableName";
     
-      
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
+            // Build the WHERE clause if parameters are provided
+            if (!empty($parameters)) {
+                $conditions = array();
+    
+                foreach ($parameters as $key => $value) {
+                    // Ensure the key is a valid column name to prevent SQL injection
+                    $key = preg_replace('/[^a-zA-Z0-9_]/', '', $key);
+    
+                    // Use placeholders in the WHERE clause
+                    $conditions[] = "$key = :$key";
+                }
+    
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+    
+            $stmt = $conn->prepare($sql);
+    
+            // Bind parameters if any
+            foreach ($parameters as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+    
+            $stmt->execute();
+    
+            // Fetch the results as an associative array
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $result;
+        } catch (PDOException $e) {
+            // Handle exceptions as needed
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    function deleteFromTable($conn, $tableName, $conditions = array()) {
+        try {
+            // Ensure the table name is a valid table name to prevent SQL injection
+            $tableName = preg_replace('/[^a-zA-Z0-9_]/', '', $tableName);
+    
+            $sql = "DELETE FROM $tableName";
+    
+            // Build the WHERE clause if conditions are provided
+            if (!empty($conditions)) {
+                $whereConditions = array();
+    
+                foreach ($conditions as $key => $value) {
+                    // Ensure the key is a valid column name to prevent SQL injection
+                    $key = preg_replace('/[^a-zA-Z0-9_]/', '', $key);
+    
+                    // Use placeholders in the WHERE clause
+                    $whereConditions[] = "$key = :$key";
+                }
+    
+                $sql .= " WHERE " . implode(' AND ', $whereConditions);
+            } else {
+                // If no conditions are provided, prevent accidental deletion of all records
+                throw new InvalidArgumentException("Conditions are required for DELETE operation");
+            }
+    
+            $stmt = $conn->prepare($sql);
+    
+            // Bind parameters if any
+            foreach ($conditions as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+    
+            $stmt->execute();
+    
+            // Return true indicating successful deletion
+            return true;
+        } catch (PDOException $e) {
+            // Handle exceptions as needed
+            // You may log the error or perform additional actions
+            return false;
+        } catch (InvalidArgumentException $e) {
+            // You may log the error or perform additional actions
+            return false;
+        }
+    }
+    
+    
+    
 
 
 ?>

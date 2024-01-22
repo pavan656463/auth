@@ -12,14 +12,10 @@ function addTask($conn ,  $title, $name, $description, $assignee) {
 
     try {
         $user = new Model($conn);
-<<<<<<< HEAD
         if ($assignee == "" || $title == ""){
             echo "Please check all details" ; 
             return False ; 
         }
-=======
-
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
         $data = array(
             'id' => rand($min, $max),
             'title' => $title,
@@ -30,11 +26,7 @@ function addTask($conn ,  $title, $name, $description, $assignee) {
 
         // Call the insertData function with the 'tasks' table and the data
         if ($user->insertData('tasks', $data)) {
-<<<<<<< HEAD
             echo "Task added successfully 👍";
-=======
-            echo "Task added successfully";
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
         } else {
             echo "Failed to add task";
         }
@@ -57,8 +49,19 @@ function taskList($conn,$username){
 }
 
 
-function deleteTask($id){
-    echo "" ; 
+function deleteTaskbyId($conn , $id){
+     try{ 
+        $data = deleteFromTable($conn , 'tasks' , ['id' =>$id]);
+        if($data){
+            return True ; 
+        }else{
+            return False ; 
+        }
+        
+     }catch(PDOException $e){
+        echo "Error : ".$e->getMessage() ; 
+        return False ; 
+     }
 }
 
 function editTask($id){
