@@ -30,6 +30,10 @@ function getTaskList($conn)
     }
     echo '</ul>';
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +49,10 @@ function getTaskList($conn)
     <link rel="stylesheet" href="/auth/base/styles/base.css">
 </head>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 <body>
     <?php
     if (isset($_SESSION['username'])) {
@@ -81,6 +88,7 @@ function getTaskList($conn)
         integrity="sha384-hWVj5fz3F5sQrlV9R0Z8s82T0UZdyzxpZ8TL3Fx4fe2urAehgJ1aFwnfFZ1hmPKL"
         crossorigin="anonymous"></script>
     <script>
+<<<<<<< HEAD
         $(document).ready(function () {
     var formSubmitted = false; // Flag to track form submission
 
@@ -157,4 +165,26 @@ function getTaskList($conn)
 });
     </script>
 </body>
+=======
+       $(document).ready(function () {
+        $(".task-box").click(function () {
+            var title = $(this).data("title");
+            var description = $(this).data("description");
+            var dateCreated = $(this).data("date-created");
+
+            Swal.fire({
+                title: title,
+                html: '<p>Description: ' + description + '</p><p>Date Created: ' + dateCreated + '</p>',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'OK',
+            });
+        });
+    });
+
+    </script>
+</body>
+
+>>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 </html>
