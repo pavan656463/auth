@@ -169,6 +169,62 @@ class Model {
         }
     }
     
+        // Function to update a record in the database
+    function updateRecord($conn, $table, $data, $conditions)
+    {
+        // Create an array to store the placeholders for the SET part of the query
+        $setPlaceholders = [];
+
+        // Create an array to store the values for the SET part of the query
+        $setValues = [];
+
+        // Iterate through the data array to build the SET part of the query
+        foreach ($data as $key => $value) {
+            $setPlaceholders[] = "$key = :$key";
+            $setValues[":$key"] = $value;
+        }
+
+        // Create the SET part of the query by joining the placeholders
+        $setPart = implode(", ", $setPlaceholders);
+
+        // Create an array to store the placeholders for the WHERE part of the query
+        $wherePlaceholders = [];
+
+        // Iterate through the conditions array to build the WHERE part of the query
+        foreach ($conditions as $key => $value) {
+            $wherePlaceholders[] = "$key = :$key";
+            $setValues[":$key"] = $value;
+        }
+
+        // Create the WHERE part of the query by joining the placeholders
+        $wherePart = implode(" AND ", $wherePlaceholders);
+
+        // Build the SQL query
+        $sql = "UPDATE $table SET $setPart WHERE $wherePart";
+
+        try {
+            // Prepare the SQL query
+            $stmt = $conn->prepare($sql);
+
+            // Bind the values from the data array
+            foreach ($setValues as $key => $value) {
+                $stmt->bindValue($key, $value);
+            }
+
+            // Execute the query
+            $stmt->execute();
+
+            // Close the statement
+            $stmt = null;
+
+            // Return true on success
+            return true;
+        } catch (PDOException $e) {
+            // Handle the exception (you might want to log it or return false)
+            return false;
+        }
+    }
+
     
     
 
