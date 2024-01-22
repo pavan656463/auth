@@ -1,6 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'userControl.php';
+require_once '../configuration/config.php' ;
+require_once '../configuration/userControl.php' ;
+
 
 session_start();
 
@@ -27,44 +28,59 @@ function displayErrors($errors)
     }
 }
 
+
 function register($conn)
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $errors = array();
 
+        // Validate email
         if (!validateEmail($_POST["email"])) {
             $errors[] = "Invalid email format";
         }
 
+        // Validate username
         if (!validateUsername($_POST["username"])) {
             $errors[] = "Invalid username format";
         }
 
+        // Validate password length
         if (strlen($_POST["password"]) < 6) {
             $errors[] = "Password must be at least 6 characters long";
         }
 
+        // Display errors if any
         displayErrors($errors);
 
         if (empty($errors)) {
-            $user = new Model($conn);
+            // Use $_POST directly for consistency
             $email = $_POST["email"];
             $username = $_POST["username"];
             $password = $_POST["password"];
 
-            if ($user->registerUser($email, $username, $password)) {
+            $data = array(
+                'email' => $email,
+                'username' => $username,
+                'password' => $password
+            );
+
+            $user = new Model($conn);
+
+            if ($user->insertData('users', $data)) {
                 echo "Registration Successful";
                 $_SESSION['registration_status'] = "success";
-                header("Location: ".$_SERVER['PHP_SELF']);
+                header("Location: " . $_SERVER['PHP_SELF']);
                 exit();
-            } else { 
-                echo "Registration Unsuccessful";
+            } else {
+                // Redirect to registration page with an error message
+                $_SESSION['registration_status'] = "error";
+                header("Location: registration_page.php");
+                exit();
             }
         }
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
