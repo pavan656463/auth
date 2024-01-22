@@ -14,9 +14,9 @@
             <input type="text" class="form-control" name="assignee" id="assignee" aria-describedby="helpId"
                 placeholder="Add your text here..." />
         </div>
-        <button type="submit" class="btn btn-primary" name="submit">Add Task</button>
+        <button type="submit" class="btn btn-primary" name="submit" style = "background-color:#20c997;border:none;">Add Task</button>
         <?php
-        call($conn);
+        task($conn); // function in base.php 
         ?>
     </form>
 </div>

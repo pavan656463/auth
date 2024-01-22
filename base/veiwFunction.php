@@ -32,6 +32,19 @@ function addTask($conn ,  $title, $name, $description, $assignee) {
     }
 }
 
+function taskList($conn,$username){
+    try{
+        $user = new Model($conn) ;
+
+        $data = selectFromTable($conn , 'tasks', ['name'=>$username])  ;
+        
+        return $data ; 
+
+    }catch(PDOException $e){
+        echo "Error: ".$e->getMessage() ; 
+    }
+}
+
 
 function deleteTask($id){
     echo "" ; 
@@ -41,8 +54,5 @@ function editTask($id){
     echo "" ; 
 }
 
-function taskList($username){
-    echo "" ; 
-}
 
 ?>
