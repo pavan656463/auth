@@ -2,8 +2,11 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require '../configuration/config.php';
-require 'veiwFunction.php';
+require_once '../configuration/config.php';
+require '../base/tasks/deleteTask.php'; 
+require_once 'veiwFunction.php';
+
+
 session_start();
 
 function task($conn)
@@ -13,9 +16,24 @@ function task($conn)
         $name = $_SESSION['username'];
         $description = $_POST["description"];
         $assignee = $_POST["assignee"];
-
         addTask($conn, $title, $name, $description, $assignee);
     }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-task-id"])) {
+    $taskId = $_POST["delete-task-id"];
+
+    // Implement logic to delete the task from the database based on $taskId
+    // For example, you can use a function like deleteTaskById($conn, $taskId) to delete the task.
+    // Make sure to include your database connection and appropriate functions.
+
+    deleteTaskById($conn, $taskId);
+
+    // Return a success message or appropriate response
+    echo "Task deleted successfully!";
+} else {
+    // Handle invalid request
+    echo "Invalid request!";
 }
 
 function getTaskList($conn)
@@ -24,18 +42,24 @@ function getTaskList($conn)
     $tasks = taskList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '">';
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '">';
+        echo '<div class="d-flex justify-content-between align-items-center">';
         echo '<h5 class="task-title">' . $task['title'] . '</h5>';
+        echo '<div class="task-buttons">';
+        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-right:15px;" data-task-id="' . $task['id'] . '">View</button>';
+        echo '<button class="btn btn-primary btn-sm edit-task" style="margin-right:15px;" data-task-id="' . $task['id'] . '">Edit</button>';
+        echo '<form method="post" action="base.php">';
+        echo '<input type="hidden" name="delete-task-id" value="' . $task['id'] . '">';
+        echo '<button type="submit" class="btn btn-danger btn-sm delete-task" style="margin-right:15px;">Delete</button>';
+        echo '</form>';
+        echo '</div>';
+        echo '</div>';
         echo '</li>';
     }
     echo '</ul>';
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,10 +73,6 @@ function getTaskList($conn)
     <link rel="stylesheet" href="/auth/base/styles/base.css">
 </head>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 <body>
     <?php
     if (isset($_SESSION['username'])) {
@@ -80,111 +100,22 @@ function getTaskList($conn)
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="card box-1">
+                    <div class="card-body">
+                        <h4 class="card-title">Tasks-Assigned to me </h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-hWVj5fz3F5sQrlV9R0Z8s82T0UZdyzxpZ8TL3Fx4fe2urAehgJ1aFwnfFZ1hmPKL"
-        crossorigin="anonymous"></script>
-    <script>
-<<<<<<< HEAD
-        $(document).ready(function () {
-    var formSubmitted = false; // Flag to track form submission
-
-    $(".task-box").click(function () {
-        var title = $(this).data("title");
-        var description = $(this).data("description");
-        var dateCreated = $(this).data("date-created");
-
-        Swal.fire({
-            title: title,
-            html: '<p>Description: ' + description + '</p><p>Date Created: ' + dateCreated + '</p>',
-            icon: 'info',
-            showCancelButton: false,
-            showConfirmButton: true,
-            confirmButtonText: 'OK',
-        });
-    });
-
-    // AJAX form submission
-    $("addTaskForm").submit(function (event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        if (formSubmitted) {
-            // If form has already been submitted, do nothing
-            return;
-        }
-
-        // Validate title and assignee
-        var title = $("#title").val().trim();
-        var assignee = $("#assignee").val().trim();
-
-        if (title === "" || assignee === "") {
-            // Show an alert if title or assignee is empty
-            Swal.fire({
-                title: 'Validation Error',
-                text: 'Title and Assignee cannot be empty',
-                icon: 'error',
-                confirmButtonText: 'OK',
-            });
-            return;
-        }
-
-        formSubmitted = true; // Set the flag to true to indicate form submission
-
-        $.ajax({
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            data: $(this).serialize(),
-            success: function (response) {
-                // Handle the success response if needed
-                console.log(response);
-                // Refresh the task list after successful form submission
-                refreshTaskList();
-            },
-            error: function (error) {
-                // Handle the error response if needed
-                console.log(error);
-            }
-        });
-    });
-
-    // Function to refresh the task list after form submission
-    function refreshTaskList() {
-        $.ajax({
-            url: "tasks/getTaskList.php", // Replace with the actual URL to fetch the updated task list
-            success: function (data) {
-                $(".card-body .list-group").html(data);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-});
-    </script>
-</body>
-=======
-       $(document).ready(function () {
-        $(".task-box").click(function () {
-            var title = $(this).data("title");
-            var description = $(this).data("description");
-            var dateCreated = $(this).data("date-created");
-
-            Swal.fire({
-                title: title,
-                html: '<p>Description: ' + description + '</p><p>Date Created: ' + dateCreated + '</p>',
-                icon: 'info',
-                showCancelButton: false,
-                showConfirmButton: true,
-                confirmButtonText: 'OK',
-            });
-        });
-    });
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 
     </script>
 </body>
 
->>>>>>> 8f9b5718b8946a2b8ab98a71c9b2198a1a0df563
 </html>
