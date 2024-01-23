@@ -87,7 +87,26 @@ function getTaskList($conn)
     echo '</ul>';
 }
 
-
+function getAssignList($conn){
+    $username = $_SESSION['username'];
+    $tasks = taskAssignList($conn, $username);
+    echo '<ul class="list-group">';
+    foreach ($tasks as $task) {
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '">';
+        
+        echo '<div class="d-flex justify-content-between align-items-center">';
+        
+        // Title on the left side
+        echo '<h5 class="task-title">' . $task['title'] . '</h5>';
+        
+        // Buttons on the right side
+        echo '<div class="d-flex">';
+        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';        
+        echo '</div>'; // Close the d-flex div for title and buttons
+        echo '</li>';
+    }
+    echo '</ul>';
+}
 
 
 ?>
@@ -135,6 +154,7 @@ function getTaskList($conn)
                 <div class="card box-1">
                     <div class="card-body">
                         <h4 class="card-title">Tasks-Assigned to me </h4>
+                        <?php getAssignList($conn) ?>
                     </div>
                 </div>
             </div>
