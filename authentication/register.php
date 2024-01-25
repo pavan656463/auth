@@ -74,7 +74,7 @@ function register($conn)
             } else {
                 // Redirect to registration page with an error message
                 $_SESSION['registration_status'] = "error";
-                header("Location: registration_page.php");
+                header("Location: ". $_SERVER['PHP_SELF']);
                 exit();
             }
         }
@@ -105,22 +105,22 @@ function register($conn)
                     onsubmit="return validateForm()">
                     <div class="mb-3">
                         <label for="" class="form-label label-1mb-3 d-md-none" style="top : 64px"> ✉️ Email</label>
-                        <input type="email" class="form-control" name="email" id="emailInput" placeholder="" />
+                        <input type="email" class="form-control" name="email" id="emailInput" placeholder=""  required/>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label label-2 mb-3 d-md-none" style="top : 117px">👤 Username</label>
-                        <input type="text" class="form-control" name="username" id="usernameInput" placeholder="" />
+                        <input type="text" class="form-control" name="username" id="usernameInput" placeholder="" required />
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label lable-3 mb-3 d-md-none" style="top : 170px">🔒 Set Password</label>
-                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="" />
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="" required/>
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                     <br><?php register($conn); ?>
                 </form>
             </div>
             <div class="container mb-4 con-2">
-                <p>Already have an account? <a href="/auth/authentication/login.php">Click here</a></p>
+                <p>Already have an account? <a href="/auth/">Click here</a></p>
             </div>
         </div>
     </div>
