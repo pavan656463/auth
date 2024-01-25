@@ -2,3 +2,8 @@
     border-radius: 2em; 
     padding: 5px;
 }
+
+/* Custom CSS for Swal.fire modal container */
+.swal-modal-container-custom {
+    border-radius: 2em; /* Set the desired border radius */
+}
