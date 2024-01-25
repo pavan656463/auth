@@ -61,7 +61,7 @@ function getTaskList($conn)
     $tasks = taskList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box-1" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . '">';
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . "data-task-comment".$task['comment'] .'">';
         echo $task['task_status'];
         echo '<div class="d-flex justify-content-between align-items-center">';
         
@@ -93,15 +93,19 @@ function getAssignList($conn){
     $tasks = taskAssignList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . '">';
-        echo $task['task_status'];
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] .'">';
+        echo ''.$task['task_status'] ; 
         echo '<div class="d-flex justify-content-between align-items-center">';
         
         // Title on the left side
         echo '<h5 class="task-title">' . $task['title'].'- '.$task['name'] . '</h5>';
         // Buttons on the right side
         echo '<div class="d-flex">';
-        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997 ;  border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';        
+        echo '<form method="post" action="base.php" style="margin-left:10px;">';
+        echo '<input type="hidden" name="done-task-id" value="' . $task['id'] . '">';
+        echo '<button class="btn btn-primary btn-sm edit-task" style="background-color:#20c997; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">Done 👍</button>';
+        echo '</form>';
+        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#ffe135; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';        
         echo '</div>'; // Close the d-flex div for title and buttons
         echo '</li>';
     }
@@ -168,70 +172,29 @@ function getAssignList($conn){
 
     </script>
     <script>
-    $(document).ready(function () {
-    $(".task-box").click(function () {
-        var title = $(this).data("title");
-        var description = $(this).data("description");
-        var dateCreated = $(this).data("date-created");
-        var assignee = $(this).data("assignee");
-        var task_status = $(this).data("task-status");
-        var taskId = $(this).data("task-id");
+       $(document).ready(function () {
+            var formSubmitted = false; // Flag to track form submission
 
-        // Custom HTML for the Swal.fire modal with a comment box
-        var modalContent = '<div class="card">' +
-            '<div class="card-body text-start">' +
-            '<h5 class="card-title text-center">' + title + '</h5>' +
-            '<p class="card-text"><strong>Description:</strong> ' + description + '</p>' +
-            '<p class="card-text"><strong>Assignee:</strong> ' + assignee + '</p>' +
-            '<p class="card-text"><strong>Date Created:</strong> ' + dateCreated + '</p>' +
-            '<p class="card-text"><strong>Task Status:</strong> ' + task_status + '</p>' +
-            '<div class="mt-3">' +
-            '<label for="comment"  style : "padding-bottom:30px ; ">Add Comment:</label>' +
-            '<textarea class="form-control " id="comment" name="comment" rows="3" style="padding-top: 10px;margin-top: 10-; margin-top: 10px;"></textarea>' +
-            '</div>' +
-            '</div>' +
-            '<form method="post" action="base.php">' +
-            '<input type="hidden" name="done-task-id" value="' + taskId + '">' +
-            '<button class="btn btn-primary btn-sm edit-task">Done 👍</button>' +
-            '</form>' +
-            '</div>';
+            $(".task-box").click(function () {
+                var title = $(this).data("title");
+                var description = $(this).data("description");
+                var dateCreated = $(this).data("date-created");
+                var assignee = $(this).data("assignee");
+                var task_status = $(this).data("task-status");
+                var comment  = $(this).data("task-comment") ; 
 
-        Swal.fire({
-            html: modalContent,
-            showConfirmButton: false,
-            showCancelButton: true,
-            cancelButtonText: 'Close',
-            customClass: {
-                container: 'swal-modal-container-custom' // Add a custom class to the modal container
-            }
-        });
-    });
-});
-
-
-    $(document).ready(function () {
-        $(".task-box-1").click(function () {
-            var title = $(this).data("title");
-            var description = $(this).data("description");
-            var dateCreated = $(this).data("date-created");
-            var assignee = $(this).data("assignee");
-            var task_status = $(this).data("task-status");
-            var taskId = $(this).data("task-id");
-
-            Swal.fire({
-                title: title,
-                html: '<p>Description: ' + description + '</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p><p>Task status: ' + task_status + '</p>',
-                icon: 'info',
-                showCancelButton: false,
-                showConfirmButton: true,
-                confirmButtonText: 'OK',
+                Swal.fire({
+                    title: title,
+                    html: '<p>Description: ' + description +'</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p><p>Task status: ' + task_status +'</p><p>Comment by'+ assignee+ ' : ' + comment,
+                    icon: 'info',
+                    showCancelButton: false,
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                });
             });
+
         });
-    });
-</script>
-
-
-
+    </script>
 </body>
 
 </html>
