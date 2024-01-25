@@ -61,7 +61,7 @@ function getTaskList($conn)
     $tasks = taskList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . '">';
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . "data-task-comment".$task['comment'] .'">';
         echo $task['task_status'];
         echo '<div class="d-flex justify-content-between align-items-center">';
         
@@ -181,10 +181,11 @@ function getAssignList($conn){
                 var dateCreated = $(this).data("date-created");
                 var assignee = $(this).data("assignee");
                 var task_status = $(this).data("task-status");
+                var comment  = $(this).data("task-comment") ; 
 
                 Swal.fire({
                     title: title,
-                    html: '<p>Description: ' + description +'</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p><p>Task status: ' + task_status,
+                    html: '<p>Description: ' + description +'</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p><p>Task status: ' + task_status +'</p><p>Comment by'+ assignee+ ' : ' + comment,
                     icon: 'info',
                     showCancelButton: false,
                     showConfirmButton: true,
