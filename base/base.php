@@ -61,12 +61,12 @@ function getTaskList($conn)
     $tasks = taskList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '">';
-        
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '" data-task-status="' . $task['task_status'] . '">';
+        echo $task['task_status'];
         echo '<div class="d-flex justify-content-between align-items-center">';
         
         // Title on the left side
-        echo '<h5 class="task-title">' . $task['title'] . '</h5>';
+        echo '<h5 class="task-title">' . $task['title'].'- '.$task['assignee']. '</h5>';
         
         // Buttons on the right side
         echo '<div class="d-flex">';
@@ -87,21 +87,25 @@ function getTaskList($conn)
     echo '</ul>';
 }
 
+
 function getAssignList($conn){
     $username = $_SESSION['username'];
     $tasks = taskAssignList($conn, $username);
     echo '<ul class="list-group">';
     foreach ($tasks as $task) {
-        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] . '">';
-        
+        echo '<li class="list-group-item task-box" data-description="' . $task['description'] . '" data-title="' . $task['title'] . '" data-date-created="' . $task['date_created'] . '" data-assignee="' . $task['assignee'] .'">';
+        echo ''.$task['task_status'] ; 
         echo '<div class="d-flex justify-content-between align-items-center">';
         
         // Title on the left side
-        echo '<h5 class="task-title">' . $task['title'] . '</h5>';
-        
+        echo '<h5 class="task-title">' . $task['title'].'- '.$task['name'] . '</h5>';
         // Buttons on the right side
         echo '<div class="d-flex">';
-        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#20c997; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';        
+        echo '<form method="post" action="base.php" style="margin-left:10px;">';
+        echo '<input type="hidden" name="done-task-id" value="' . $task['id'] . '">';
+        echo '<button class="btn btn-primary btn-sm edit-task" style="background-color:#20c997; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">Done 👍</button>';
+        echo '</form>';
+        echo '<button class="btn btn-info btn-sm view-task" style="background-color:#ffe135; border:none; margin-left:10px;" data-task-id="' . $task['id'] . '">View</button>';        
         echo '</div>'; // Close the d-flex div for title and buttons
         echo '</li>';
     }
@@ -176,16 +180,18 @@ function getAssignList($conn){
                 var description = $(this).data("description");
                 var dateCreated = $(this).data("date-created");
                 var assignee = $(this).data("assignee");
+                var task_status = $(this).data("task-status");
 
                 Swal.fire({
                     title: title,
-                    html: '<p>Description: ' + description + '</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p>',
+                    html: '<p>Description: ' + description +'</p><p>Assignee: ' + assignee + '</p><p>Date Created: ' + dateCreated + '</p><p>Task status: ' + task_status,
                     icon: 'info',
                     showCancelButton: false,
                     showConfirmButton: true,
                     confirmButtonText: 'OK',
                 });
             });
+
         });
     </script>
 </body>
