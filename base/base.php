@@ -188,37 +188,35 @@ function getAssignList($conn){
     <script src="/auth/base/scripts/taskListView.js">
     </script>
     <script>
-    // Function to set the task title in local storage
-    function setTaskTitle() {
-        var taskTitleInput = document.getElementById("title");
-        var taskTitle = taskTitleInput.value;
-        localStorage.setItem("taskTitle", taskTitle);
-    }
-
-    // Function to get the task title from localStorage
-    function getTaskTitle() {
-        var taskTitleInput = document.getElementById("title");
-        var storedTaskTitle = localStorage.getItem("taskTitle");
-        if (storedTaskTitle !== null) {
-            taskTitleInput.value = storedTaskTitle;
+    function setFocusState() {
+            var taskTitleInput = document.getElementById("title");
+            localStorage.setItem("titleValue", taskTitleInput.value);
+            var isFocused = taskTitleInput === document.activeElement;
+            localStorage.setItem("isTitleFocused", isFocused);
         }
-    }
 
-    // Call the getTaskTitle function when the page loads
-    window.onload = function () {
-        getTaskTitle();
-    };
+        // Function to restore the focus state and value from localStorage
+        function restoreFocusState() {
+            var taskTitleInput = document.getElementById("title");
+            var titleValue = localStorage.getItem("titleValue");
+            taskTitleInput.value = titleValue || ""; // Set the value from localStorage, default to an empty string
+            var isFocused = localStorage.getItem("isTitleFocused") === "true";
+            if (isFocused) {
+                taskTitleInput.focus();
+            }
+        }
 
-    // Reload the page after 5 seconds
-    setTimeout(function () {
-        location.reload();
-    }, 5000);
+        // Call the restoreFocusState function when the page loads
+        window.onload = function () {
+            restoreFocusState();
+        };
 
-    // Save the task title to localStorage before the page is reloaded
-    window.onbeforeunload = function () {
-        setTaskTitle();
-    };
-</script>
+        // Reload the page after 5 seconds
+        setTimeout(function () {
+            setFocusState(); // Save the focus state and value before reloading
+            location.reload();
+        }, 5000);
+    </script>
 
 
 
