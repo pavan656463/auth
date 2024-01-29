@@ -185,40 +185,10 @@ function getAssignList($conn){
     crossorigin="anonymous"></script>
 
     </script>
-    <script src="/auth/base/scripts/taskListView.js">
-    </script>
-    <script>
-    // Function to set the task title in local storage
-    function setTaskTitle() {
-        var taskTitleInput = document.getElementById("title");
-        var taskTitle = taskTitleInput.value;
-        localStorage.setItem("taskTitle", taskTitle);
-    }
+    <script src="/auth/base/scripts/taskListView.js"></script>
 
-    // Function to get the task title from localStorage
-    function getTaskTitle() {
-        var taskTitleInput = document.getElementById("title");
-        var storedTaskTitle = localStorage.getItem("taskTitle");
-        if (storedTaskTitle !== null) {
-            taskTitleInput.value = storedTaskTitle;
-        }
-    }
-
-    // Call the getTaskTitle function when the page loads
-    window.onload = function () {
-        getTaskTitle();
-    };
-
-    // Reload the page after 5 seconds
-    setTimeout(function () {
-        location.reload();
-    }, 5000);
-
-    // Save the task title to localStorage before the page is reloaded
-    window.onbeforeunload = function () {
-        setTaskTitle();
-    };
-</script>
+    <!--Reload state script-->
+    <script src = "/auth/base/scripts/reloadState.js"></script>
 
 
 
