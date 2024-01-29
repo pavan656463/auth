@@ -87,7 +87,6 @@ function register($conn)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
     <!-- Adjust the paths to point to your locally downloaded Bootstrap files -->
     <link href="/auth/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/auth/authentication/styles/register.css">
