@@ -118,7 +118,7 @@ function getAssignList($conn){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
-    <link href="/auth/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="/auth/lib/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
     <link rel="stylesheet" href="/auth/base/styles/base.css">

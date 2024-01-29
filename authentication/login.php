@@ -37,7 +37,7 @@ function auth($conn)
     <title>Signin</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
     <!-- Adjust the paths to point to your locally downloaded Bootstrap files -->
-    <link href="/auth/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/auth/lib/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/auth/authentication/styles/login.css">
 </head>
 
@@ -85,7 +85,7 @@ function auth($conn)
         </div>
     </div>
     <!-- Adjust the paths to point to your locally downloaded Bootstrap JS file -->
-    <script src="/auth/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/auth/lib/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var inputs = document.querySelectorAll('.custom-textarea');
