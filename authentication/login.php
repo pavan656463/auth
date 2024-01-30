@@ -1,10 +1,11 @@
 <?php
 
-require '../configuration/config.php' ; 
-require_once '../configuration/userControl.php' ; 
+require '../configuration/config.php';
+require_once '../configuration/userControl.php';
 
-function auth($conn){
-    session_start() ; 
+function auth($conn)
+{
+    session_start();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login_submit"])) {
         // Retrieve form data
@@ -12,33 +13,34 @@ function auth($conn){
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        if ($user->authenticateUser($username , $password)){
-            // sending data url 
-            $_SESSION['username'] = $username ; 
+        if ($user->authenticateUser($username, $password)) {
+            // sending data url
+            $_SESSION['username'] = $username;
             $url = "/auth/base/base.php";
-            
-            header("Location: ".$url);
+
+            header("Location: " . $url);
             exit();
-        }else{
-            echo "Wrong Username or password" ; 
+        } else {
+            echo "Wrong Username or password";
         }
-
     }
-
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signin</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Adjust the paths to point to your locally downloaded Bootstrap files -->
+    <link href="/auth/lib/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/auth/authentication/styles/login.css">
 </head>
+
 <body>
     <div class="row justify-content-center align-items-center" style="height: 100vh;">
         <div class="container-1 card">
@@ -73,20 +75,21 @@ function auth($conn){
                     >
                         Login
                     </button>
-                    <br><?php  auth($conn) ?>
+                    <br><?php auth($conn) ?>
                 </form>
-                               
+
             </div>
             <div class="container">
-                <p class = "content-p">Don't have account <a href = "/auth/authentication/register.php"> click here</a></p>
+                <p class="content-p">Don't have an account <a href="/auth/authentication/register.php"> click here</a></p>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Adjust the paths to point to your locally downloaded Bootstrap JS file -->
+    <script src="/auth/lib/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var inputs = document.querySelectorAll('.custom-textarea');
-            
+
             inputs.forEach(function (input) {
                 input.addEventListener('focus', function () {
                     input.classList.add('no-hover');
@@ -99,4 +102,5 @@ function auth($conn){
         });
     </script>
 </body>
+
 </html>

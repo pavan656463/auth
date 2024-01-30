@@ -1,7 +1,6 @@
 <?php
-require_once '../configuration/config.php' ;
-require_once '../configuration/userControl.php' ;
-
+require_once '../configuration/config.php';
+require_once '../configuration/userControl.php';
 
 session_start();
 
@@ -27,7 +26,6 @@ function displayErrors($errors)
         echo '</div>';
     }
 }
-
 
 function register($conn)
 {
@@ -74,7 +72,7 @@ function register($conn)
             } else {
                 // Redirect to registration page with an error message
                 $_SESSION['registration_status'] = "error";
-                header("Location: ". $_SERVER['PHP_SELF']);
+                header("Location: " . $_SERVER['PHP_SELF']);
                 exit();
             }
         }
@@ -90,9 +88,8 @@ function register($conn)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
+    <!-- Adjust the paths to point to your locally downloaded Bootstrap files -->
+    <link href="/auth/bootstrap-5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/auth/authentication/styles/register.css">
 </head>
 
@@ -105,15 +102,18 @@ function register($conn)
                     onsubmit="return validateForm()">
                     <div class="mb-3">
                         <label for="" class="form-label label-1mb-3 d-md-none" style="top : 64px"> ✉️ Email</label>
-                        <input type="email" class="form-control" name="email" id="emailInput" placeholder=""  required/>
+                        <input type="email" class="form-control" name="email" id="emailInput" placeholder="" required />
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label label-2 mb-3 d-md-none" style="top : 117px">👤 Username</label>
-                        <input type="text" class="form-control" name="username" id="usernameInput" placeholder="" required />
+                        <input type="text" class="form-control" name="username" id="usernameInput" placeholder=""
+                            required />
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label lable-3 mb-3 d-md-none" style="top : 170px">🔒 Set Password</label>
-                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="" required/>
+                        <label for="" class="form-label lable-3 mb-3 d-md-none"
+                            style="top : 170px">🔒 Set Password</label>
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder=""
+                            required />
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                     <br><?php register($conn); ?>
@@ -124,6 +124,8 @@ function register($conn)
             </div>
         </div>
     </div>
+    <!-- Adjust the paths to point to your locally downloaded Bootstrap JS file -->
+    <script src="/auth/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function togglePlaceholders() {
             var passwordInput = document.getElementById("passwordInput");
