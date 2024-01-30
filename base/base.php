@@ -204,12 +204,45 @@ function getAssignList($conn){
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/auth/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+    <script src="/auth/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </script>
-    <script src="/auth/base/scripts/taskListView.js"></script>
+    <script src="/auth/base/scripts/taskListView.js">
+    </script>
+    <script>
+    // Function to set the task title in local storage
+    function setTaskTitle() {
+        var taskTitleInput = document.getElementById("title");
+        var taskTitle = taskTitleInput.value;
+        localStorage.setItem("taskTitle", taskTitle);
+    }
 
-    <!--Reload state script-->
-    <script src = "/auth/base/scripts/reloadState.js"></script>
+    // Function to get the task title from localStorage
+    function getTaskTitle() {
+        var taskTitleInput = document.getElementById("title");
+        var storedTaskTitle = localStorage.getItem("taskTitle");
+        if (storedTaskTitle !== null) {
+            taskTitleInput.value = storedTaskTitle;
+        }
+    }
+
+    // Call the getTaskTitle function when the page loads
+    window.onload = function () {
+        getTaskTitle();
+    };
+
+    // Reload the page after 5 seconds
+    setTimeout(function () {
+        location.reload();
+    }, 5000);
+
+    // Save the task title to localStorage before the page is reloaded
+    window.onbeforeunload = function () {
+        setTaskTitle();
+    };
+</script>
 
 </body>
 
