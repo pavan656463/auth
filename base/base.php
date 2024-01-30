@@ -134,7 +134,7 @@ function getAssignList($conn){
     }
     ?>
     <div class="container" style="margin-left: 0; margin-right:0;">
-        <div class="row">
+        <div class="row" style = "padding-bottom: 20px;">
             <div class="col-lg-6">
                 <div class="card mb-4 box-1">
                     <div class="card-body">
@@ -144,14 +144,35 @@ function getAssignList($conn){
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card box-1">
+                <div class="card box-1" >
                     <div class="card-body">
                         <h4 class="card-title">Tasks-Assigned to me </h4>
-                        <?php getAssignList($conn) ?>
+                        <div class="row">
+                            <!-- Pending tasks -->
+                            <div class="col-lg-8">
+                                <div class="card box-1" style="margin-bottom: 20px; padding-bottom: 20px;">
+                                    <div class="card-body">
+                                        <h5>Pending</h5>
+                                    </div>
+                                    <?php getAssignList($conn) ?>
+                                </div>
+                            </div>
+                            <!-- Completed tasks -->
+                            <div class="col-lg-4">
+                                <div class="card box-1">
+                                    <div class="card-body">
+                                        <h5>Completed</h5>
+                                        <!-- Add your content for completed tasks here if needed -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+        </div>
+    <div class="row">
+        <div class="col-lg-8">
                 <div class="card box-1">
                     <div class="card-body">
                         <h4 class="card-title">Tasks-List</h4>
@@ -177,10 +198,10 @@ function getAssignList($conn){
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/auth/lib/jquery/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/auth/bootstrap-5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
@@ -189,9 +210,6 @@ function getAssignList($conn){
 
     <!--Reload state script-->
     <script src = "/auth/base/scripts/reloadState.js"></script>
-
-
-
 
 </body>
 
